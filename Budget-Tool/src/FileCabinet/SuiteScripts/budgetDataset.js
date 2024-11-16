@@ -9,12 +9,15 @@ define(["require", "exports", "N/dataset"], function (require, exports, dataset)
     exports.createDataset = createDataset;
     // import query = require("N/query");
     function createDataset(context) {
+        const budgetLines = dataset.createJoin({ fieldId: 'budgetmachine' });
         context.dataset = dataset.create({
             type: 'budgets',
             name: 'HITC Budget (SDF)',
             columns: [
                 dataset.createColumn({ fieldId: 'account', alias: 'Account' }),
                 dataset.createColumn({ fieldId: 'department', alias: 'Department' }),
+                dataset.createColumn({ fieldId: 'period', join: budgetLines, alias: 'Period' }),
+                dataset.createColumn({ fieldId: 'amount', join: budgetLines, alias: 'Amount' })
             ]
         });
     }
