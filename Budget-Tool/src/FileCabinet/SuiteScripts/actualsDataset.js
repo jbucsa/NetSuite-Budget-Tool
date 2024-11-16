@@ -32,6 +32,9 @@ define(["require", "exports", "N/dataset", "N/query"], function (require, export
                 dataset.createColumn({ fieldId: 'trandisplayname' }),
                 typeColumn,
                 itemColumn,
+                dataset.createColumn({ fieldId: 'department', join: lineJoin, alias: 'Department' }),
+                dataset.createColumn({ fieldId: 'postingperiod', alias: 'Period' }),
+                dataset.createColumn({ formula: 'ABS(TO_NUMBER({transactionlines.foreignamount})', label: 'Amount', type: 'Float', alias: 'Amount' }),
             ]
         });
     }
