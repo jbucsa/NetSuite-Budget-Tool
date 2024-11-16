@@ -7,6 +7,6 @@
   <notifyowner>T</notifyowner>
   <notifyuser>F</notifyuser>
   <runasrole></runasrole>
-  <scriptfile>[/SuiteScripts/hitcActualsDataset.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/actualsDataset.js]</scriptfile>
   <status>RELEASED</status>
 </datasetbuilderplugin>
