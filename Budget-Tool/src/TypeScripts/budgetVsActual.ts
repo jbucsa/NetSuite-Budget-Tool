@@ -21,4 +21,22 @@ export function createWorkbook( context: EntryPoints.Plugins.WorkbookBuilder.cre
         expressions: [[budgetDepartment, expenseDepartment], [budgetPeriod, expensePeriod]],
         id: 'custdataset_hitc_budget_actual_link'
     });
+
+    const dimensionItem = workbook.createDataDimensionItem({expression: budgetPeriod});
+    const periodDimension = workbook.createDataDimension({items: [dimensionItem]});
+    const periodSection = workbook.createSection({children:[periodDimension]});
+    const budgetAmtExpress = budgetDataset.getExpressionFromColumn({alias:'Amount'});
+    const budgetSumTotal = workbook.createDataMeasure({expression: budgetAmtExpress, aggregation: 'SUM', label:'Budget'});
+    const actualAmountExp = actualDataset.getExpressionFromColumn({alias: 'Amount'});
+    const expensesTotal = workbook.createDataMeasure({expression: actualAmountExp, aggregation: 'SUM', label:'Expenses'});
+    const columnSection = workbook.createSection({children:[budgetSumTotal, expensesTotal]});
+    const pivotTable = workbook.createPivot({
+        id: 'hitc_budget_vs_actual_pivot',
+        name: 'HITC Budget Vs Actual (SDF)',
+        datasetLink: linkedDataset,
+        rowAxis: workbook.createPivotAxis({root: periodSection}),
+        columnAxis: workbook.createPivotAxis({root: columnSection})
+    });
+
+    context.workbook = workbook.create({name: 'HITC Budget Vs Actual', pivots: [pivotTable]});
 }
